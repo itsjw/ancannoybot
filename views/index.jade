@@ -22,13 +22,8 @@ script(src='https://www.google.com/recaptcha/api.js' async defer)
           h2 #{__('HEADER', community)}
         .content
           .information
-            script.
-              var RecaptchaOptions = {
-              theme : 'clean',
-              lang  : 'en'};
             form(method="POST", action="/invite")#join-form.form
               input(type="email", name="email", placeholder="#{__('ENTER_EMAIL')}")#slack-email.field
-              != recaptcha_form
               if tokenRequired                     
                 input(type="text", name="token", placeholder="#{__('ENTER_TOKEN')}")#slack-token.field2
 div#joinButton
