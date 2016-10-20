@@ -18,7 +18,7 @@ html
             script.
               var RecaptchaOptions = {
               theme : 'clean',
-              lang  : 'en'});
+              lang  : 'en'};
             form(method="POST", action="/invite")#join-form.form
               input(type="email", name="email", placeholder="#{__('ENTER_EMAIL')}")#slack-email.field
               != recaptcha_form
