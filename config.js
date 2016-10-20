@@ -14,7 +14,7 @@ module.exports = {
   //   --compressed
   slacktoken: process.env.SLACK_TOKEN || '',
   // an optional security measure - if it is set, then that token will be required to get invited.
-  inviteToken: process.env.INVITE_TOKEN || '46',
+  inviteToken: process.env.INVITE_TOKEN || null,
 
   locale: process.env.LOCALE || "en",
 };
