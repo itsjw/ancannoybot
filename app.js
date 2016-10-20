@@ -6,9 +6,11 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     config = require('./config'),
     i18n = require("i18n");
+Recaptcha = require('recaptcha').Recaptcha;
 
 var routes = require('./routes/index');
-
+var PUBLIC_KEY  = '6LefrAkUAAAAAE_gNKzRC64ntSvjXtVTBGq8LitM',
+    PRIVATE_KEY = '6LefrAkUAAAAAA2iVhYTkDGIHJsa01PYRkrb3ugX';
 var app = express();
 
 i18n.configure({
@@ -35,6 +37,44 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+
+app.get('/', function(req, res) {
+    var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY);
+
+    res.render('index.jade', {
+        layout: false,
+        locals: {
+            recaptcha_form: recaptcha.toHTML()
+        }
+    });
+});
+
+app.post('/', function(req, res) {
+    var data = {
+        remoteip:  req.connection.remoteAddress,
+        challenge: req.body.recaptcha_challenge_field,
+        response:  req.body.recaptcha_response_field
+    };
+    var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY, data);
+
+    recaptcha.verify(function(success, error_code) {
+        if (success) {
+            res.send('Recaptcha response valid.');
+        }
+        else {
+            // Redisplay the form.
+            res.render('index.jade', {
+                layout: false,
+                locals: {
+                    recaptcha_form: recaptcha.toHTML()
+                }
+            });
+        }
+    });
+});
+
+app.listen(3000);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

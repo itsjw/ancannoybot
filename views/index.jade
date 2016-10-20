@@ -15,14 +15,21 @@ html
           h2 #{__('HEADER', community)}
         .content
           .information
+ script.
+var RecaptchaOptions = {
+       theme : 'clean',
+       lang  : 'en'
+    };
+
             form(method="POST", action="/invite")#join-form.form
                 center
                        input(type="email", name="email", placeholder="#{__('ENTER_EMAIL')}")#slack-email.field
 Center
 Center
                       input(type="text", name="token", placeholder="#{__('ENTER_TOKEN')}")#slack-token.field2
+ != recaptcha_form
 center
-              input(type="submit", value="").submit
+              input(type="submit", value="Check Recaptcha").submit
     script.
       var tokenRequired = #{tokenRequired};
       var form = document.getElementById('join-form');
