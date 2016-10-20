@@ -24,7 +24,7 @@ var RecaptchaOptions = {
             form(method="POST", action="/invite")#join-form.form
                        input(type="email", name="email", placeholder="#{__('ENTER_EMAIL')}")#slack-email.field
  != recaptcha_form
-If tokenRequired                     
+if tokenRequired                     
  input(type="text", name="token", placeholder="#{__('ENTER_TOKEN')}")#slack-token.field2
 
               input(type="submit", value="Check Recaptcha").submit
